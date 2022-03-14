@@ -6,4 +6,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #ececec;
+  color: #414141;
+}
+.Container {
+  display: flex;
+  justify-content: center;
+
+  width: 90vw;
+  max-width: 1500px;
+}
+.Page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

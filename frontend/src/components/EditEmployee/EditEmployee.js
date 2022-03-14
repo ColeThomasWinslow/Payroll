@@ -1,32 +1,16 @@
 import React from "react";
-import ChartComp from "./ChartComp";
-import Totals from "./Totals";
 import styled from "styled-components";
-function Dashboard() {
+function EditEmployee() {
   return (
     <>
       <Title>
-        <h2>Dashboard</h2>
+        <h2>Edit Employee</h2>
       </Title>
-      <DashboardCont>
-        <Totals />
-        <ChartComp />
-      </DashboardCont>
     </>
   );
 }
 
-export default Dashboard;
-const DashboardCont = styled.div`
-  display: flex;
-  align-items: center;
-  height: 82vh;
-  width: 100%;
-  flex-wrap: wrap;
-
-  padding-bottom: 50px;
-  justify-content: space-evenly;
-`;
+export default EditEmployee;
 const Title = styled.div`
   width: 100%;
   display: flex;
@@ -34,6 +18,7 @@ const Title = styled.div`
   justify-content: flex-end;
   z-index: -1;
   h2 {
+    font-style: italic;
     width: 90vw;
     max-width: 200px;
     text-align: center;

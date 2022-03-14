@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import FadeIn from "react-fade-in/lib/FadeIn";
 function AddNew() {
   return (
     <>
@@ -8,32 +9,34 @@ function AddNew() {
       </Title>
       <AddNewCont>
         <FormBox>
-          <InfoSection>
-            <label>Employee Name</label>
-            <input placeholder=" Enter Name Of Employee" />
-          </InfoSection>
-          <InfoSection>
-            <label>Employee Phone Number</label>
-            <input placeholder="Phone Number" />
-          </InfoSection>
-          <InfoSection>
-            <label>Employee Email</label>
-            <input placeholder="Email" />
-          </InfoSection>
-          <InfoSection>
-            <label>Business Category</label>
-            <select>
-              <option>Marketing</option>
-              <option>Sales</option>
-              <option>Accounting</option>
-              <option>Management</option>
-            </select>
-          </InfoSection>
-          <InfoSection>
-            <label>Salary</label>
-            <input type="Number" />
-          </InfoSection>
-          <AddEmployeeBtn>+ Add Employee</AddEmployeeBtn>
+          <FadeIn delay="20">
+            <InfoSection>
+              <label>Employee Name</label>
+              <input placeholder="Enter Name Of Employee" />
+            </InfoSection>
+            <InfoSection>
+              <label>Employee Phone Number</label>
+              <input placeholder="Phone Number" />
+            </InfoSection>
+            <InfoSection>
+              <label>Employee Email</label>
+              <input placeholder="Email" />
+            </InfoSection>
+            <InfoSection>
+              <label>Business Category</label>
+              <select>
+                <option>Marketing</option>
+                <option>Sales</option>
+                <option>Accounting</option>
+                <option>Management</option>
+              </select>
+            </InfoSection>
+            <InfoSection>
+              <label>Salary</label>
+              <input type="Number" />
+            </InfoSection>
+            <AddEmployeeBtn>+ Add Employee</AddEmployeeBtn>
+          </FadeIn>
         </FormBox>
       </AddNewCont>
     </>
@@ -48,6 +51,7 @@ const Title = styled.div`
   justify-content: flex-end;
   z-index: -1;
   h2 {
+    font-style: italic;
     width: 90vw;
     max-width: 200px;
     text-align: center;
