@@ -1,44 +1,98 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { createEmployee } from "../../features/employees/employeeSlice";
 import styled from "styled-components";
 import FadeIn from "react-fade-in/lib/FadeIn";
 function AddNew() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [category, setCategory] = useState("sales");
+  const [salary, setSalary] = useState("");
+
+  const [Success, setSuccess] = useState(false);
+  const dispatch = useDispatch();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (
+      (name === "") |
+      (email === "") |
+      (phone === "") |
+      (category === "") |
+      (salary === "")
+    ) {
+      toast.error("Please Fill Out All Fields");
+    } else {
+      setSuccess(true);
+      setTimeout(function () {
+        setSuccess(false);
+      }, 3000);
+    }
+    dispatch(createEmployee({ name, email, phone, category, salary }));
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCategory("sales");
+    setSalary("");
+  };
   return (
     <>
       <Title>
         <h2>+ Add New Employee</h2>
       </Title>
       <AddNewCont>
-        <FormBox>
+        <FormBox onSubmit={onSubmit}>
           <FadeIn delay="20">
             <InfoSection>
               <label>Employee Name</label>
-              <input placeholder="Enter Name Of Employee" />
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter Name Of Employee"
+              />
             </InfoSection>
             <InfoSection>
               <label>Employee Phone Number</label>
-              <input placeholder="Phone Number" />
+              <input
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="Phone Number"
+              />
             </InfoSection>
             <InfoSection>
               <label>Employee Email</label>
-              <input placeholder="Email" />
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+              />
             </InfoSection>
             <InfoSection>
               <label>Business Category</label>
-              <select>
-                <option>Marketing</option>
-                <option>Sales</option>
-                <option>Accounting</option>
-                <option>Management</option>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="marketing">Marketing</option>
+                <option value="sales">Sales</option>
+                <option value="accounting">Accounting</option>
+                <option value="management">Management</option>
               </select>
             </InfoSection>
             <InfoSection>
               <label>Salary</label>
-              <input type="Number" />
+              <input
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+                type="Number"
+              />
             </InfoSection>
             <AddEmployeeBtn>+ Add Employee</AddEmployeeBtn>
           </FadeIn>
         </FormBox>
+        {Success && <p>Employee Was Saved</p>}
       </AddNewCont>
     </>
   );
@@ -99,7 +153,7 @@ const AddNewCont = styled.div`
   height: 85vh;
   padding-top: 40px;
 `;
-const FormBox = styled.div`
+const FormBox = styled.form`
   width: 80vw;
   max-width: 450px;
   background: #f4f4f4;
