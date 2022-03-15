@@ -1,12 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout, reset } from "../../../features/auth/authSlice";
 function AuthCont() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/login");
+  };
   return (
     <AuthBox>
-      <UserBox>
-        <p>Business Name</p>
-        <button>Sign Out</button>
-      </UserBox>
+      {user && (
+        <UserBox>
+          <p>{user && user.name}</p>
+          <button onClick={onLogout}>Sign Out</button>
+        </UserBox>
+      )}
     </AuthBox>
   );
 }

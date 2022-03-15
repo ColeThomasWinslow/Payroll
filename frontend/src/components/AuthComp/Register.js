@@ -1,11 +1,62 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FadeIn from "react-fade-in/lib/FadeIn";
+import { toast } from "react-toastify";
+import { register, reset } from "../../features/auth/authSlice";
+import Spinner from "../Spinner";
 function Register() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
+  const { name, email, password, password2 } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isSuccess, isError, message, navigate, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (password !== password2) {
+      toast.error("Passwords do not match");
+    } else {
+      const userData = {
+        name,
+        email,
+        password,
+      };
+      dispatch(register(userData));
+    }
+  };
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <>
       <AddNewCont>
-        <FormBox>
+        <FormBox onSubmit={onSubmit}>
           <Title>
             <h2>Register Account</h2>
             <p>please create a account</p>
@@ -13,19 +64,51 @@ function Register() {
           <FadeIn delay="20">
             <InfoSection>
               <label>Company Name</label>
-              <input placeholder="Company Name" />
+              <input
+                type="text"
+                className="AuthInput"
+                id="name"
+                name="name"
+                value={name}
+                placeholder="Enter your Name Here"
+                onChange={onChange}
+              />
             </InfoSection>
             <InfoSection>
               <label>Email</label>
-              <input placeholder="Enter Email" />
+              <input
+                type="text"
+                className="AuthInput"
+                id="email"
+                name="email"
+                value={email}
+                placeholder="Enter your Email"
+                onChange={onChange}
+              />
             </InfoSection>
             <InfoSection>
               <label>Password</label>
-              <input placeholder="Create A Password" />
+              <input
+                type="password"
+                className="AuthInput"
+                id="password"
+                name="password"
+                value={password}
+                placeholder="Enter a Password"
+                onChange={onChange}
+              />
             </InfoSection>
             <InfoSection>
               <label>Confirm Password</label>
-              <input placeholder="Confirm Password" />
+              <input
+                type="password"
+                className="AuthInput"
+                id="password2"
+                name="password2"
+                value={password2}
+                placeholder="Confirm Password"
+                onChange={onChange}
+              />
             </InfoSection>
             <SignInBtn>Sign In</SignInBtn>
           </FadeIn>
@@ -99,7 +182,7 @@ const AddNewCont = styled.div`
   height: 85vh;
   padding-top: 40px;
 `;
-const FormBox = styled.div`
+const FormBox = styled.form`
   width: 80vw;
 
   max-width: 450px;

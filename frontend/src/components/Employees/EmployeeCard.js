@@ -11,7 +11,7 @@ function EmployeeCard({ employee }) {
           <img src={Employee} alt="Employee" />
         </CatImg>
         <CardInfo>
-          <Link to={`/Employees/${employee.id}`}>
+          <Link to={`/Employees/${employee._id}`}>
             <h2>{employee.name}</h2>
           </Link>
           <ContactBox>

@@ -2,14 +2,33 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import styled from "styled-components";
 import { Doughnut } from "react-chartjs-2";
-function ChartComp() {
+function ChartComp({ employees }) {
   ChartJS.register(ArcElement, Tooltip, Legend);
+  const getPercentageValues = () => {
+    let cat = [];
+    employees.map((employee) => {
+      console.log(employee.category);
+      return cat.push(employee.category);
+    });
+    let graphData = [];
+    const sales = cat.filter((v) => v === "sales").length;
+    const marketing = cat.filter((v) => v === "marketing").length;
+    const accounting = cat.filter((v) => v === "accounting").length;
+    const management = cat.filter((v) => v === "management").length;
+    graphData.push(sales);
+    graphData.push(marketing);
+    graphData.push(accounting);
+    graphData.push(management);
+    return graphData;
+  };
+  const GraphData = getPercentageValues();
+  console.log(GraphData);
   const data = {
     labels: ["Sales", "Marketing", "Accounting", "Management"],
     datasets: [
       {
         label: "Employee Breakdown",
-        data: [300, 150, 100, 80],
+        data: GraphData,
         backgroundColor: ["#00b7ff", "#ff8a2b", "#1dc547", "red"],
       },
     ],

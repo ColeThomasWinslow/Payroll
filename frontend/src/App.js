@@ -7,7 +7,8 @@ import Employees from "./components/Employees/Employees";
 import EditEmployee from "./components/EditEmployee/EditEmployee";
 import Login from "./components/AuthComp/Login";
 import Register from "./components/AuthComp/Register";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Employees/:id" element={<EditEmployee />} />
         </Routes>
       </Router>
+      <ToastContainer />
     </div>
   );
 }

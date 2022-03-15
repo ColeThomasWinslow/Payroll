@@ -1,44 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import FadeIn from "react-fade-in";
 import EmployeeCard from "./EmployeeCard";
 import styled from "styled-components";
+
+import { useNavigate } from "react-router-dom";
+import { reset, getEmployees } from "../../features/employees/employeeSlice";
+import { useSelector, useDispatch } from "react-redux";
 function Employees() {
-  const TestEmployees = [
-    {
-      id: 1,
-      name: "Cole Winslow",
-      phone: "6030800888",
-      email: "ctwinslow7@gmail.com",
-      cat: "management",
-      salary: 80000,
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      phone: "6030056678",
-      email: "JohnDoe@gmail.com",
-      cat: "marketing",
-      salary: 95000,
-    },
-    {
-      id: 3,
-      name: "Tim Somethin",
-      phone: "6045667888",
-      email: "Tim@gmail.com",
-      cat: "sales",
-      salary: 60000,
-    },
-    {
-      id: 4,
-      name: "Berhta dsfsafca",
-      phone: "4059967888",
-      email: "bertha@gmail.com",
-      cat: "accounting",
-      salary: 65000,
-    },
-  ];
-  const [SearchName, setSearchName] = useState("");
-  const [Employees, setEmployees] = useState(TestEmployees);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { employees, isError, message } = useSelector(
+    (state) => state.employee
+  );
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    if (!user) {
+      navigate("/Login");
+    }
+    dispatch(getEmployees());
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, navigate, isError, message, dispatch]);
 
   return (
     <>
@@ -50,15 +37,14 @@ function Employees() {
           <EmployeesCont>
             <SearchCont>
               <h3>Search For Employees</h3>
-              <input
-                onChange={(e) => setSearchName(e.target.value)}
-                placeholder="Employee Name"
-              />
+              <input placeholder="Employee Name" />
             </SearchCont>
             <EmployeeList>
               <FadeIn delay="80">
-                {Employees.map((employee) => {
-                  return <EmployeeCard key={employee.id} employee={employee} />;
+                {employees.map((employee) => {
+                  return (
+                    <EmployeeCard key={employee._id} employee={employee} />
+                  );
                 })}
               </FadeIn>
             </EmployeeList>

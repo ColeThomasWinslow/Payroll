@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ChartComp from "./ChartComp";
 import Totals from "./Totals";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { reset, getEmployees } from "../../features/employees/employeeSlice";
+import { useSelector, useDispatch } from "react-redux";
 function Dashboard() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { employees, isError, message } = useSelector(
+    (state) => state.employee
+  );
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    if (!user) {
+      navigate("/Login");
+    }
+    dispatch(getEmployees());
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, navigate, isError, message, dispatch]);
+
   return (
     <>
       <Title>
@@ -11,8 +34,8 @@ function Dashboard() {
       <div className="Page">
         <div className="Container">
           <DashboardCont>
-            <Totals />
-            <ChartComp />
+            <Totals employees={employees} />
+            <ChartComp employees={employees} />
           </DashboardCont>
         </div>
       </div>

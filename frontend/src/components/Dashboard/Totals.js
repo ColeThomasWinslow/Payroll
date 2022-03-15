@@ -4,7 +4,18 @@ import Employee from "../../Icons/Employee.svg";
 import Date from "../../Icons/Date.svg";
 import Money from "../../Icons/Money.svg";
 import FadeIn from "react-fade-in/lib/FadeIn";
-function Totals() {
+function Totals({ employees }) {
+  const getSalary = () => {
+    let salaries = [];
+    employees.map((item) => {
+      const salary = parseInt(item.salary);
+      return salaries.push(salary);
+    });
+    return salaries.reduce((a, b) => a + b, 0);
+  };
+
+  const TotalSalary = getSalary();
+  console.log(TotalSalary);
   return (
     <div>
       <FadeIn delay="100">
@@ -13,7 +24,7 @@ function Totals() {
             <img src={Employee} alt="Employee" />
           </CatImg>
           <CardInfo>
-            <h2>250</h2>
+            <h2>{employees.length}</h2>
             <p>Total amount of Employees</p>
           </CardInfo>
         </Card>
@@ -22,7 +33,7 @@ function Totals() {
             <img src={Money} alt="Monthly" />
           </CatImg>
           <CardInfo>
-            <h2>$190,450</h2>
+            <h2>${TotalSalary / 12}</h2>
             <p>Total Monthly Amount in Pay </p>
           </CardInfo>
         </Card>
@@ -31,7 +42,7 @@ function Totals() {
             <img src={Date} alt="Date" />
           </CatImg>
           <CardInfo>
-            <h2>$380,900</h2>
+            <h2>${TotalSalary}</h2>
             <p>Total Yearly Amount in Pay </p>
           </CardInfo>
         </Card>

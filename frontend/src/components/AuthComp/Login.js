@@ -1,11 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import FadeIn from "react-fade-in/lib/FadeIn";
+import Spinner from "../Spinner";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login, reset } from "../../features/auth/authSlice";
+import { toast } from "react-toastify";
 function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    if (isSuccess || user) {
+      navigate("/");
+    }
+    dispatch(reset());
+  }, [user, isSuccess, isError, message, navigate, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const userData = {
+      email,
+      password,
+    };
+    dispatch(login(userData));
+  };
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <>
       <AddNewCont>
-        <FormBox>
+        <FormBox onSubmit={onSubmit}>
           <Title>
             <h2>Sign in</h2>
             <p>please sign into your account</p>
@@ -13,12 +55,28 @@ function Login() {
 
           <FadeIn delay="20">
             <InfoSection>
-              <label>Company Name</label>
-              <input placeholder="Company Name" />
+              <label>Enter email</label>
+              <input
+                type="text"
+                className="AuthInput"
+                id="email"
+                name="email"
+                value={email}
+                placeholder="Enter your Email"
+                onChange={onChange}
+              />
             </InfoSection>
             <InfoSection>
               <label>Password</label>
-              <input placeholder="Password" />
+              <input
+                type="password"
+                className="AuthInput"
+                id="password"
+                name="password"
+                value={password}
+                placeholder="Enter a Password"
+                onChange={onChange}
+              />
             </InfoSection>
             <SignInBtn>Sign In</SignInBtn>
           </FadeIn>
@@ -123,7 +181,7 @@ const AddNewCont = styled.div`
   flex-direction: column;
   height: 75vh;
 `;
-const FormBox = styled.div`
+const FormBox = styled.form`
   width: 80vw;
   max-width: 450px;
   background: #f4f4f4;

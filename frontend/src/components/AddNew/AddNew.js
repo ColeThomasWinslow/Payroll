@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import styled from "styled-components";
 import FadeIn from "react-fade-in/lib/FadeIn";
 function AddNew() {
