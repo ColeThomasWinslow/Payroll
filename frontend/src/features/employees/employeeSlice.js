@@ -64,7 +64,42 @@ export const deleteEmployee = createAsyncThunk(
     }
   }
 );
-
+// Get one Employee
+export const oneEmployee = createAsyncThunk(
+  "employees/one",
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await employeeService.getOneEmployee(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+// Update Employee
+export const updateEmployee = createAsyncThunk(
+  "employees/update",
+  async (id, employeeData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await employeeService.updateOneEmployee(id, employeeData, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 export const employeeSlice = createSlice({
   name: "employee",
   initialState,
@@ -95,6 +130,32 @@ export const employeeSlice = createSlice({
         state.employees = action.payload;
       })
       .addCase(getEmployees.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(oneEmployee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(oneEmployee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.employees.push(action.payload);
+      })
+      .addCase(oneEmployee.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateEmployee.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateEmployee.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.employees.push(action.payload);
+      })
+      .addCase(updateEmployee.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

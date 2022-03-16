@@ -22,7 +22,26 @@ const getEmployees = async (token) => {
   const response = await axios.get(API_URL, config);
   return response.data;
 };
-
+// One
+const getOneEmployee = async (employeeId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.get(API_URL + employeeId, config);
+  return response.data;
+};
+// Update
+const updateOneEmployee = async (employeeId, employeeData, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(API_URL + employeeId, employeeData, config);
+  return response.data;
+};
 // delete
 const deleteEmployees = async (employeeId, token) => {
   const config = {
@@ -33,5 +52,11 @@ const deleteEmployees = async (employeeId, token) => {
   const response = await axios.delete(API_URL + employeeId, config);
   return response.data;
 };
-const employeeService = { createEmployee, getEmployees, deleteEmployees };
+const employeeService = {
+  createEmployee,
+  getEmployees,
+  getOneEmployee,
+  deleteEmployees,
+  updateOneEmployee,
+};
 export default employeeService;

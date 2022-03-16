@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Employee from "../../Icons/Employee.svg";
 import { Link } from "react-router-dom";
+import { CommaGen } from "../../utils/CommaGen";
 function EmployeeCard({ employee }) {
   return (
     <Card>
-      <BusinessCat>{employee.cat}</BusinessCat>
+      <BusinessCat>{employee.category}</BusinessCat>
       <CardBody>
         <CatImg>
           <img src={Employee} alt="Employee" />
@@ -18,7 +19,7 @@ function EmployeeCard({ employee }) {
             <p>{employee.email}</p>
             <p className="Number">{employee.phone}</p>
           </ContactBox>
-          <Salary>${employee.salary}</Salary>
+          <Salary>${CommaGen(employee.salary)}</Salary>
         </CardInfo>
       </CardBody>
     </Card>

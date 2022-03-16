@@ -29,6 +29,28 @@ const setEmployee = asyncHandler(async (req, res) => {
   });
   res.status(200).json(employee);
 });
+// GEt One employees
+// Get /api/employees/:id
+// Auth Required
+const getOneEmployee = asyncHandler(async (req, res) => {
+  const employee = await Employee.findById(req.params.id);
+
+  if (!employee) {
+    res.status(400);
+    throw new Error("employee Not Found");
+  }
+
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User Not found");
+  }
+  if (employee.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not Authorized");
+  }
+
+  res.status(200).json(employee);
+});
 
 // Updated employees
 // PUT /api/employees/:id
@@ -83,6 +105,7 @@ const deleteEmployee = asyncHandler(async (req, res) => {
 
 module.exports = {
   getEmployees,
+  getOneEmployee,
   setEmployee,
   updateEmployee,
   deleteEmployee,

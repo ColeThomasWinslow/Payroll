@@ -4,6 +4,7 @@ import Employee from "../../Icons/Employee.svg";
 import Date from "../../Icons/Date.svg";
 import Money from "../../Icons/Money.svg";
 import FadeIn from "react-fade-in/lib/FadeIn";
+import { CommaGen } from "../../utils/CommaGen";
 function Totals({ employees }) {
   const getSalary = () => {
     let salaries = [];
@@ -33,7 +34,7 @@ function Totals({ employees }) {
             <img src={Money} alt="Monthly" />
           </CatImg>
           <CardInfo>
-            <h2>${TotalSalary / 12}</h2>
+            <h2>${CommaGen(TotalSalary / 12)}</h2>
             <p>Total Monthly Amount in Pay </p>
           </CardInfo>
         </Card>
@@ -42,7 +43,7 @@ function Totals({ employees }) {
             <img src={Date} alt="Date" />
           </CatImg>
           <CardInfo>
-            <h2>${TotalSalary}</h2>
+            <h2>${CommaGen(TotalSalary)}</h2>
             <p>Total Yearly Amount in Pay </p>
           </CardInfo>
         </Card>
