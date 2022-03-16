@@ -7,7 +7,6 @@ function ChartComp({ employees }) {
   const getPercentageValues = () => {
     let cat = [];
     employees.map((employee) => {
-      console.log(employee.category);
       return cat.push(employee.category);
     });
     let graphData = [];
@@ -22,7 +21,7 @@ function ChartComp({ employees }) {
     return graphData;
   };
   const GraphData = getPercentageValues();
-  console.log(GraphData);
+
   const data = {
     labels: ["Sales", "Marketing", "Accounting", "Management"],
     datasets: [

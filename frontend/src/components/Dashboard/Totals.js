@@ -16,7 +16,7 @@ function Totals({ employees }) {
   };
 
   const TotalSalary = getSalary();
-  console.log(TotalSalary);
+
   return (
     <>
       <FadeIn delay="100">

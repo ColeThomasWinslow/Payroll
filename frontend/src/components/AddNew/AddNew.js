@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 import { createEmployee } from "../../features/employees/employeeSlice";
 import styled from "styled-components";
 import FadeIn from "react-fade-in/lib/FadeIn";
@@ -10,8 +11,8 @@ function AddNew() {
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("sales");
   const [salary, setSalary] = useState("");
-
   const [Success, setSuccess] = useState(false);
+  const [FakeUser, setFakeUser] = useState("");
   const dispatch = useDispatch();
 
   const onSubmit = (e) => {
@@ -37,6 +38,37 @@ function AddNew() {
     setCategory("sales");
     setSalary("");
   };
+  const FakeUserCreation = () => {
+    function random(mn, mx) {
+      return Math.random() * (mx - mn) + mn;
+    }
+    function randomIntFromInterval(min, max) {
+      // min and max included
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    function GetRandomCat() {
+      const catArr = ["sales", "marketing", "accounting", "management"];
+      return catArr[Math.floor(random(1, 5)) - 1];
+    }
+    const rndInt = randomIntFromInterval(35000, 100000);
+    const rndCat = GetRandomCat();
+
+    setName(`${FakeUser.name.first + " " + FakeUser.name.last}`);
+    setEmail(FakeUser.email);
+    setPhone(FakeUser.phone);
+    setCategory(rndCat);
+    setSalary(rndInt);
+  };
+  useEffect(() => {
+    axios.get("https://randomuser.me/api/?results=1").then(function (response) {
+      console.log(response);
+      const user = response.data.results[0];
+      setFakeUser(user);
+    });
+  }, []);
+
   return (
     <>
       <Title>
@@ -92,6 +124,7 @@ function AddNew() {
             <AddEmployeeBtn>+ Add Employee</AddEmployeeBtn>
           </FadeIn>
         </FormBox>
+        <AddTestBtn onClick={FakeUserCreation}>Add Test Employee</AddTestBtn>
         {Success && <p>Employee Was Saved</p>}
       </AddNewCont>
     </>
@@ -99,6 +132,15 @@ function AddNew() {
 }
 
 export default AddNew;
+const AddTestBtn = styled.button`
+  border: none;
+  cursor: pointer;
+  margin-top: 30px;
+  font-weight: bold;
+  &:hover {
+    color: #b92626;
+  }
+`;
 const Title = styled.div`
   width: 100%;
   display: flex;
@@ -128,6 +170,9 @@ const AddEmployeeBtn = styled.button`
   border-radius: 8px;
   margin-top: 15px;
   cursor: pointer;
+  &:hover {
+    opacity: 80%;
+  }
 `;
 const InfoSection = styled.div`
   display: flex;
@@ -148,8 +193,9 @@ const InfoSection = styled.div`
 `;
 const AddNewCont = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+
+  align-items: center;
+  flex-direction: column;
   height: 85vh;
   padding-top: 40px;
 `;
