@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import FadeIn from "react-fade-in/lib/FadeIn";
-import {
-  deleteEmployee,
-  updateEmployee,
-} from "../../features/employees/employeeSlice";
+import { deleteEmployee } from "../../features/employees/employeeSlice";
 import { useDispatch } from "react-redux";
 
 function EditEmployeeForm({ employee }) {
-  const { id } = useParams();
+  // const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = (e) => {
