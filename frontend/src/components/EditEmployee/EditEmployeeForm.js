@@ -19,7 +19,7 @@ function EditEmployeeForm({ employee }) {
   };
   return (
     <div className="Container">
-      <div className="Page">
+      <div style={{ minHeight: "100vh" }}>
         <Card>
           <Delete className="close btn" onClick={onDelete}>
             Delete Employee Data
@@ -89,6 +89,7 @@ const Delete = styled.button`
   z-index: 12;
   font-size: 12px;
   margin: 10px;
+  height: 50px;
   font-weight: bold;
   &:hover {
     opacity: 80%;
@@ -129,7 +130,6 @@ const FormBox = styled.form`
   max-width: 450px;
   background: #f4f4f4;
   padding: 15px;
-
   box-shadow: 2px 0px 10px #d6d6d6;
 `;
 

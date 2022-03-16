@@ -9,26 +9,13 @@ import { useSelector, useDispatch } from "react-redux";
 function Employees() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [CatActive, setCatActive] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredResults, setFilteredResults] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const { employees, isError, message, isLoading } = useSelector(
     (state) => state.employee
   );
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-
-    if (!user) {
-      navigate("/Login");
-    }
-    dispatch(getEmployees());
-    return () => {
-      dispatch(reset());
-    };
-  }, [user, navigate, isError, message, dispatch]);
-
   const searchItems = (searchValue) => {
     setSearchInput(searchValue);
     if (searchInput !== "") {
@@ -44,6 +31,31 @@ function Employees() {
     }
   };
 
+  const CatItems = (catValue) => {
+    setCatActive(true);
+    if (catValue === "all") {
+      setFilteredResults(employees);
+    } else {
+      const filteredData = employees.filter((item) => {
+        return Object.values(item.category).join("") === catValue;
+      });
+      setFilteredResults(filteredData);
+    }
+  };
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    if (!user) {
+      navigate("/Login");
+    }
+    dispatch(getEmployees());
+    return () => {
+      dispatch(reset());
+    };
+  }, [user, navigate, isError, message, dispatch]);
+
   return (
     <>
       <Title>
@@ -58,13 +70,23 @@ function Employees() {
                 placeholder="Employee Name"
                 onChange={(e) => searchItems(e.target.value)}
               />
+
+              <SortBox>
+                <select onChange={(e) => CatItems(e.target.value)}>
+                  <option value="all">All Employees</option>
+                  <option value="management">Management</option>
+                  <option value="sales">Sales</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="accounting">Accounting</option>
+                </select>
+              </SortBox>
             </SearchCont>
             <EmployeeList>
               {isLoading ? (
                 <SkeletonLoading />
               ) : (
                 <FadeIn delay="80">
-                  {searchInput.length > 0
+                  {searchInput.length > 0 || CatActive
                     ? filteredResults.map((employee) => {
                         return (
                           <EmployeeCard
@@ -97,6 +119,19 @@ function Employees() {
 }
 
 export default Employees;
+
+const SortBox = styled.div`
+  display: flex;
+  margin-top: 10px;
+  width: 100%;
+  align-items: flex-start;
+  select {
+    border: none;
+    box-shadow: 0px 0px 1px;
+    padding: 5px;
+    width: 100%;
+  }
+`;
 const BadSearch = styled.p`
   display: flex;
   padding-top: 10px;
@@ -123,6 +158,7 @@ const SearchCont = styled.div`
   width: 90vw;
   max-width: 350px;
   margin: 20px;
+  margin-bottom: 0px;
   input {
     border: none;
     box-shadow: 0px 0px 1px;
@@ -151,7 +187,17 @@ const Title = styled.div`
     font-size: 14px;
   }
 `;
-const EmployeeList = styled.div``;
+const EmployeeList = styled.div`
+  height: 600px;
+  padding: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 2px solid #f4f4f4;
+  border-radius: 2px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 const EmployeesCont = styled.div`
   display: flex;
   align-items: flex-start;

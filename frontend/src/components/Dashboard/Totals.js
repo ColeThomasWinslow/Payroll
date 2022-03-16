@@ -84,7 +84,7 @@ const Card = styled.div`
   padding: 18px;
   border-radius: 5px;
   box-shadow: 2px 2px 10px #d6d6d6;
-  margin-top: 48px;
+
   margin-bottom: 48px;
   align-items: center;
   background: #f4f4f4;
