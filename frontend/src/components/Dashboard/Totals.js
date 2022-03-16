@@ -18,7 +18,7 @@ function Totals({ employees }) {
   const TotalSalary = getSalary();
   console.log(TotalSalary);
   return (
-    <div>
+    <>
       <FadeIn delay="100">
         <Card>
           <CatImg>
@@ -48,7 +48,7 @@ function Totals({ employees }) {
           </CardInfo>
         </Card>
       </FadeIn>
-    </div>
+    </>
   );
 }
 

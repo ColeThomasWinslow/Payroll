@@ -102,6 +102,8 @@ const BadSearch = styled.p`
   padding-top: 10px;
   padding-bottom: 10px;
   flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: bold;
   border-radius: 5px;
   box-shadow: 2px 2px 10px #d6d6d6;
   margin-bottom: 18px;
@@ -153,9 +155,13 @@ const EmployeeList = styled.div``;
 const EmployeesCont = styled.div`
   display: flex;
   align-items: flex-start;
-
+  min-height: 100vh;
   width: 100%;
   flex-wrap: wrap;
   margin-top: 40px;
   justify-content: space-evenly;
+  a {
+    color: grey;
+    text-decoration: none;
+  }
 `;

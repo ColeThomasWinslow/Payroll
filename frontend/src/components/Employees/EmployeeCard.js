@@ -5,24 +5,25 @@ import { Link } from "react-router-dom";
 import { CommaGen } from "../../utils/CommaGen";
 function EmployeeCard({ employee }) {
   return (
-    <Card>
-      <BusinessCat>{employee.category}</BusinessCat>
-      <CardBody>
-        <CatImg>
-          <img src={Employee} alt="Employee" />
-        </CatImg>
-        <CardInfo>
-          <Link to={`/Employees/${employee._id}`}>
+    <Link to={`/Employees/${employee._id}`}>
+      <Card>
+        <BusinessCat>{employee.category}</BusinessCat>
+        <CardBody>
+          <CatImg>
+            <img src={Employee} alt="Employee" />
+          </CatImg>
+          <CardInfo>
             <h2>{employee.name}</h2>
-          </Link>
-          <ContactBox>
-            <p>{employee.email}</p>
-            <p className="Number">{employee.phone}</p>
-          </ContactBox>
-          <Salary>${CommaGen(employee.salary)}</Salary>
-        </CardInfo>
-      </CardBody>
-    </Card>
+
+            <ContactBox>
+              <p>{employee.email}</p>
+              <p className="Number">{employee.phone}</p>
+            </ContactBox>
+            <Salary>${CommaGen(employee.salary)}</Salary>
+          </CardInfo>
+        </CardBody>
+      </Card>
+    </Link>
   );
 }
 
@@ -98,6 +99,9 @@ const Card = styled.div`
   background: #f4f4f4;
   width: 80vw;
   max-width: 450px;
+  &:hover {
+    opacity: 70%;
+  }
 `;
 const Salary = styled.p`
   padding: 2px;

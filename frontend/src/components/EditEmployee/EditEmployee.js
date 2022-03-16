@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { reset, oneEmployee } from "../../features/employees/employeeSlice";
 import { useSelector, useDispatch } from "react-redux";
 import EditEmployeeForm from "./EditEmployeeForm";
-
+import Spinner from "../Spinner";
 function EditEmployee() {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const { employees, isError, message } = useSelector(
+  const { employees, isError, message, isLoading } = useSelector(
     (state) => state.employee
   );
   useEffect(() => {
@@ -28,9 +28,13 @@ function EditEmployee() {
         <h2>Edit Employee</h2>
       </Title>
       <Container>
-        {employees.map((items) => {
-          return <EditEmployeeForm key={items._id} employee={items} />;
-        })}{" "}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          employees.map((items) => {
+            return <EditEmployeeForm key={items._id} employee={items} />;
+          })
+        )}
       </Container>
     </>
   );

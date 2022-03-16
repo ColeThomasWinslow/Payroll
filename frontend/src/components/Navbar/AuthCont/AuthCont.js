@@ -48,5 +48,10 @@ const UserBox = styled.div`
     color: white;
     border: none;
     font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      opacity: 80%;
+      background: #b92626;
+    }
   }
 `;

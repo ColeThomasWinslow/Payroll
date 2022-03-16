@@ -46,12 +46,11 @@ function Dashboard() {
 export default Dashboard;
 const DashboardCont = styled.div`
   display: flex;
-  align-items: center;
-  height: 82vh;
+  align-items: flex-start;
+  margin-top: 40px;
   width: 100%;
   flex-wrap: wrap;
-
-  padding-bottom: 50px;
+  min-height: 100vh;
   justify-content: space-evenly;
 `;
 const Title = styled.div`

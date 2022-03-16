@@ -33,6 +33,12 @@ function Login() {
       [e.target.name]: e.target.value,
     }));
   };
+  const UseDemo = () => {
+    setFormData({
+      email: "payroll@payroll.com",
+      password: "PAYROLL",
+    });
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     const userData = {
@@ -83,7 +89,7 @@ function Login() {
         </FormBox>
         <DemoBox>
           <p>Sign In With Demo Account</p>
-          <button>Demo Info</button>
+          <button onClick={UseDemo}>Demo Info</button>
         </DemoBox>
       </AddNewCont>
     </>
