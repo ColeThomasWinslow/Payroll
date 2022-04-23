@@ -13,9 +13,9 @@ function EditEmployee() {
     (state) => state.employee
   );
   useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
+    // if (isError) {
+    //   console.log(message);
+    // }
     dispatch(oneEmployee(id));
     return () => {
       dispatch(reset());

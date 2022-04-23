@@ -3,20 +3,41 @@ import styled from "styled-components";
 // import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import FadeIn from "react-fade-in/lib/FadeIn";
-import { deleteEmployee } from "../../features/employees/employeeSlice";
+import {
+  deleteEmployee,
+  updateEmployee,
+} from "../../features/employees/employeeSlice";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 function EditEmployeeForm({ employee }) {
-  // const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [name, setName] = useState(employee.name);
+  const [email, setEmail] = useState(employee.email);
+  const [phone, setPhone] = useState(employee.phone);
+  const [category, setCategory] = useState(employee.category);
+  const [salary, setSalary] = useState(employee.salary);
+
   const onSubmit = (e) => {
     e.preventDefault();
+    const Employee = {
+      id: employee._id,
+      name: name,
+      email: email,
+      phone: phone,
+      category: category,
+      salary: salary,
+    };
+    dispatch(updateEmployee(Employee));
   };
+
   const onDelete = () => {
     dispatch(deleteEmployee(employee._id));
     navigate("/Employees");
   };
+
   return (
     <div className="Container">
       <div style={{ minHeight: "100vh" }}>
@@ -29,8 +50,8 @@ function EditEmployeeForm({ employee }) {
               <InfoSection>
                 <label>Employee Name</label>
                 <input
+                  onChange={(e) => setName(e.target.value)}
                   defaultValue={employee.name}
-                  // onChange={(e) => setName(e.target.value)}
                   placeholder="Enter Name Of Employee"
                 />
               </InfoSection>
@@ -38,7 +59,7 @@ function EditEmployeeForm({ employee }) {
                 <label>Employee Phone Number</label>
                 <input
                   defaultValue={employee.phone}
-                  // onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Phone Number"
                 />
               </InfoSection>
@@ -46,7 +67,7 @@ function EditEmployeeForm({ employee }) {
                 <label>Employee Email</label>
                 <input
                   defaultValue={employee.email}
-                  // onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                 />
               </InfoSection>
@@ -54,7 +75,7 @@ function EditEmployeeForm({ employee }) {
                 <label>Business Category</label>
                 <select
                   defaultValue={employee.category}
-                  // onChange={(e) => setCategory(e.target.value)}
+                  onChange={(e) => setCategory(e.target.value)}
                 >
                   <option value="marketing">Marketing</option>
                   <option value="sales">Sales</option>
@@ -66,11 +87,11 @@ function EditEmployeeForm({ employee }) {
                 <label>Salary</label>
                 <input
                   defaultValue={employee.salary}
-                  // onChange={(e) => setSalary(e.target.value)}
+                  onChange={(e) => setSalary(e.target.value)}
                   type="Number"
                 />
               </InfoSection>
-              <AddEmployeeBtn>Save Employee</AddEmployeeBtn>
+              <AddEmployeeBtn type="submit">Save Employee</AddEmployeeBtn>
             </FadeIn>
           </FormBox>
         </Card>

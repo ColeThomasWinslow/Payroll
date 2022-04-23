@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Dashboard from "../../Icons/Dashboard.svg";
 import AddNew from "../../Icons/AddNew.svg";
 import Employee from "../../Icons/Employee.svg";
+import NewUser from "../../Icons/AddUser.svg";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 function NavElements() {
@@ -27,7 +28,7 @@ function NavElements() {
       ) : (
         <NavElementsCont>
           <Link to="/Register">
-            <img src={Employee} alt="Employees" />
+            <img src={NewUser} alt="NewUser" />
             <span>Create A Account</span>
           </Link>
           <Link to="/Login">

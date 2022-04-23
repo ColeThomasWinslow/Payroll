@@ -34,6 +34,7 @@ const getOneEmployee = async (employeeId, token) => {
 };
 // Update
 const updateOneEmployee = async (employeeId, employeeData, token) => {
+  console.log(employeeData);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
