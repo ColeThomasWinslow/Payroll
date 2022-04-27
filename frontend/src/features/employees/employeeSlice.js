@@ -87,7 +87,7 @@ export const updateEmployee = createAsyncThunk(
   "employees/update",
   async (employeeData, thunkAPI) => {
     const { id, ...fields } = employeeData;
-    console.log(id, fields);
+
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await employeeService.updateOneEmployee(id, fields, token);
