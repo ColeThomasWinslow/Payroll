@@ -32,7 +32,9 @@ body {
   justify-content: center;
   align-items: center;
 }
-
+.selected {
+  opacity: 50%;
+}
 .loadingSpinner {
   width: 64px;
   height: 64px;

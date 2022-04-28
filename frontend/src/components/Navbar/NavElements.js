@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 function NavElements() {
   const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       {user ? (

@@ -82,7 +82,7 @@ function EditEmployeeForm() {
         ) : (
           employees.slice(0, 1).map((employee) => {
             return (
-              <div>
+              <div key={employee._id}>
                 <Card>
                   <Delete className="close btn" onClick={onDelete}>
                     Delete Employee Data

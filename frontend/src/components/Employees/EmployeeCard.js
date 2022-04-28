@@ -26,8 +26,8 @@ function EmployeeCard({ employee }) {
             <ContactBox>
               <p>{employee.email}</p>
               <p className="Number">{employee.phone}</p>
+              <Salary>${CommaGen(employee.salary)}</Salary>
             </ContactBox>
-            <Salary>${CommaGen(employee.salary)}</Salary>
           </CardInfo>
         </CardBody>
       </Card>
@@ -42,8 +42,10 @@ const ContactBox = styled.div`
   width: 100%;
 
   flex-wrap: wrap;
-  .Number {
-    margin-left: 10px;
+  p {
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 90%;
   }
 `;
 const CardBody = styled.div`
@@ -113,7 +115,6 @@ const CardInfo = styled.div`
     color: grey;
     font-size: 12px;
     font-weight: bold;
-    margin: 0px;
   }
   a {
     text-decoration: none;
@@ -136,6 +137,6 @@ const Card = styled.div`
   }
 `;
 const Salary = styled.p`
-  padding: 2px;
   width: 100%;
+  margin-top: 20px;
 `;

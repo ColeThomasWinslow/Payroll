@@ -158,7 +158,7 @@ const SearchCont = styled.div`
   width: 90vw;
   max-width: 350px;
   margin: 20px;
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   input {
     border: none;
     box-shadow: 0px 0px 1px;

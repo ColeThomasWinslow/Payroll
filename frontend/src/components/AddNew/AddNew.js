@@ -63,7 +63,6 @@ function AddNew() {
   };
   useEffect(() => {
     axios.get("https://randomuser.me/api/?results=1").then(function (response) {
-      console.log(response);
       const user = response.data.results[0];
       setFakeUser(user);
     });
