@@ -1,100 +1,151 @@
-import React from "react";
 import styled from "styled-components";
+import React, { useEffect } from "react";
 // import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import FadeIn from "react-fade-in/lib/FadeIn";
 import {
   deleteEmployee,
   updateEmployee,
 } from "../../features/employees/employeeSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-
-function EditEmployeeForm({ employee }) {
+import Spinner from "../Spinner";
+import { reset, oneEmployee } from "../../features/employees/employeeSlice";
+function EditEmployeeForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [name, setName] = useState(employee.name);
-  const [email, setEmail] = useState(employee.email);
-  const [phone, setPhone] = useState(employee.phone);
-  const [category, setCategory] = useState(employee.category);
-  const [salary, setSalary] = useState(employee.salary);
+  const [Success, setSuccess] = useState(false);
+  const [name, setName] = useState();
+  const [EMid, setEMid] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
+  const [category, setCategory] = useState();
+  const [salary, setSalary] = useState();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const Employee = {
-      id: employee._id,
-      name: name,
-      email: email,
-      phone: phone,
-      category: category,
-      salary: salary,
-    };
-    dispatch(updateEmployee(Employee));
+    if (
+      (name === "") |
+      (email === "") |
+      (phone === "") |
+      (category === "") |
+      (salary === "")
+    ) {
+      toast.error("Please Fill Out All Fields");
+    } else {
+      const Employee = {
+        id: id,
+        name: name,
+        email: email,
+        phone: phone,
+        category: category,
+        salary: salary,
+      };
+      dispatch(updateEmployee(Employee));
+      setSuccess(true);
+      setTimeout(function () {
+        setSuccess(false);
+      }, 3000);
+    }
   };
 
   const onDelete = () => {
-    dispatch(deleteEmployee(employee._id));
+    dispatch(deleteEmployee(id));
     navigate("/Employees");
   };
+  const { id } = useParams();
+
+  const { employees, isError, message, isLoading } = useSelector(
+    (state) => state.employee
+  );
+
+  useEffect(() => {
+    setEMid(id);
+
+    // if (isError) {
+    //   console.log(message);
+    // }
+    dispatch(reset());
+    dispatch(oneEmployee(id));
+    return () => {
+      dispatch(reset());
+    };
+  }, [isError, message, dispatch, id]);
 
   return (
     <div className="Container">
       <div style={{ minHeight: "100vh" }}>
-        <Card>
-          <Delete className="close btn" onClick={onDelete}>
-            Delete Employee Data
-          </Delete>
-          <FormBox onSubmit={onSubmit}>
-            <FadeIn delay="20">
-              <InfoSection>
-                <label>Employee Name</label>
-                <input
-                  onChange={(e) => setName(e.target.value)}
-                  defaultValue={employee.name}
-                  placeholder="Enter Name Of Employee"
-                />
-              </InfoSection>
-              <InfoSection>
-                <label>Employee Phone Number</label>
-                <input
-                  defaultValue={employee.phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Phone Number"
-                />
-              </InfoSection>
-              <InfoSection>
-                <label>Employee Email</label>
-                <input
-                  defaultValue={employee.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                />
-              </InfoSection>
-              <InfoSection>
-                <label>Business Category</label>
-                <select
-                  defaultValue={employee.category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value="marketing">Marketing</option>
-                  <option value="sales">Sales</option>
-                  <option value="accounting">Accounting</option>
-                  <option value="management">Management</option>
-                </select>
-              </InfoSection>
-              <InfoSection>
-                <label>Salary</label>
-                <input
-                  defaultValue={employee.salary}
-                  onChange={(e) => setSalary(e.target.value)}
-                  type="Number"
-                />
-              </InfoSection>
-              <AddEmployeeBtn type="submit">Save Employee</AddEmployeeBtn>
-            </FadeIn>
-          </FormBox>
-        </Card>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          employees.slice(0, 1).map((employee) => {
+            return (
+              <div>
+                <Card>
+                  <Delete className="close btn" onClick={onDelete}>
+                    Delete Employee Data
+                  </Delete>
+                  <FormBox onSubmit={onSubmit}>
+                    <FadeIn delay="20">
+                      <InfoSection>
+                        <label>Employee Name</label>
+                        <input
+                          onChange={(e) => setName(e.target.value)}
+                          defaultValue={`${name ? name : employee.name}`}
+                          placeholder="Enter Name Of Employee"
+                        />
+                      </InfoSection>
+                      <InfoSection>
+                        <label>Employee Phone Number</label>
+                        <input
+                          defaultValue={`${phone ? phone : employee.phone}`}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="Phone Number"
+                        />
+                      </InfoSection>
+                      <InfoSection>
+                        <label>Employee Email</label>
+                        <input
+                          defaultValue={`${email ? email : employee.email}`}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Email"
+                        />
+                      </InfoSection>
+                      <InfoSection>
+                        <label>Business Category</label>
+                        <select
+                          defaultValue={`${
+                            category ? category : employee.category
+                          }`}
+                          onChange={(e) => setCategory(e.target.value)}
+                        >
+                          <option value="marketing">Marketing</option>
+                          <option value="sales">Sales</option>
+                          <option value="accounting">Accounting</option>
+                          <option value="management">Management</option>
+                        </select>
+                      </InfoSection>
+                      <InfoSection>
+                        <label>Salary</label>
+                        <input
+                          defaultValue={`${salary ? salary : employee.salary}`}
+                          onChange={(e) => setSalary(e.target.value)}
+                          type="Number"
+                        />
+                      </InfoSection>
+                      <AddEmployeeBtn type="submit">
+                        Save Employee
+                      </AddEmployeeBtn>
+                    </FadeIn>
+                  </FormBox>
+                  {Success && <p>Employee Was Saved</p>}
+                </Card>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

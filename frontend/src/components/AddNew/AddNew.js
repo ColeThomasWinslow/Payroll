@@ -24,7 +24,7 @@ function AddNew() {
       (category === "") |
       (salary === "")
     ) {
-      toast.error("Please Fill Out All Fields");
+      toast.error("Fields Cant be Blank");
     } else {
       setSuccess(true);
       setTimeout(function () {

@@ -4,11 +4,12 @@ import Navbar from "./components/Navbar/Navbar";
 import Dashboard from "./components/Dashboard/Dashboard";
 import AddNew from "./components/AddNew/AddNew";
 import Employees from "./components/Employees/Employees";
-import EditEmployee from "./components/EditEmployee/EditEmployee";
+
 import Login from "./components/AuthComp/Login";
 import Register from "./components/AuthComp/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditEmployeeForm from "./components/EditEmployee/EditEmployeeForm";
 function App() {
   return (
     <div className="App">
@@ -20,7 +21,7 @@ function App() {
           <Route path="/Register" element={<Register />} />
           <Route path="/Add" element={<AddNew />} />
           <Route path="/Employees" element={<Employees />} />
-          <Route path="/Employees/:id" element={<EditEmployee />} />
+          <Route path="/Employees/:id" element={<EditEmployeeForm />} />
         </Routes>
       </Router>
       <ToastContainer />
